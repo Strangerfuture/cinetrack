@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <h2>Find Movies & TV</h2>
+    <form action="/search" method="post" class="d-flex gap-2 mb-4">
+        <input type="text" name="query" class="form-control" placeholder="Search title..." value="{{ query }}">
+        <button class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for item in results %}
+        <div class="col">
+            <div class="card h-100">
+                {% if item.poster %}
+                    <img src="{{ item.poster }}" class="card-img-top" alt="{{ item.title }}">
+                {% else %}
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 300px;">No Image</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text text-muted">{{ item.year }} • {{ item.media_type|upper }}</p>
+                    
+                    <form action="/add" method="post" class="mb-2">
+                        <input type="hidden" name="tmdb_id" value="{{ item.tmdb_id }}">
+                        <input type="hidden" name="title" value="{{ item.title }}">
+                        <input type="hidden" name="media_type" value="{{ item.media_type }}">
+                        <input type="hidden" name="poster" value="{{ item.poster }}">
+                        <input type="hidden" name="year" value="{{ item.year }}">
+                        <input type="hidden" name="action" value="watchlist">
+                        <button class="btn btn-sm btn-outline-primary w-100">Add to Watchlist</button>
+                    </form>
+
+                    <button type="button" class="btn btn-sm btn-success w-100" data-bs-toggle="modal" data-bs-target="#reviewModal{{ loop.index }}">
+                        Rate & Review
+                    </button>
+
+                    <div class="modal fade" id="reviewModal{{ loop.index }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form action="/add" method="post" class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Review {{ item.title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="tmdb_id" value="{{ item.tmdb_id }}">
+                                    <input type="hidden" name="title" value="{{ item.title }}">
+                                    <input type="hidden" name="media_type" value="{{ item.media_type }}">
+                                    <input type="hidden" name="poster" value="{{ item.poster }}">
+                                    <input type="hidden" name="year" value="{{ item.year }}">
+                                    <input type="hidden" name="action" value="review">
+                                    
+                                    <div class="mb-3">
+                                        <label>Rating (1-5)</label>
+                                        <input type="number" name="rating" min="1" max="5" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Review</label>
+                                        <textarea name="review_text" class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary">Save Review</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

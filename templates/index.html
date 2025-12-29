@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="mb-3">My Watchlist</h3>
+            <ul class="list-group">
+                {% for item in watchlist %}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if item.poster %}
+                        <img src="{{ item.poster }}" width="50" class="me-3 rounded">
+                    {% endif %}
+                    <div>
+                        <strong>{{ item.title }}</strong>
+                        <div class="text-muted small">{{ item.year }}</div>
+                    </div>
+                </li>
+                {% else %}
+                    <li class="list-group-item">Your watchlist is empty.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-8">
+            <h3 class="mb-3">Recent Reviews</h3>
+            {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        {% if review.poster %}
+                            <img src="{{ review.poster }}" class="img-fluid rounded-start">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.title }} <span class="badge bg-warning text-dark">{{ review.rating }}/5</span></h5>
+                            <p class="card-text">{{ review.review }}</p>
+                            <p class="card-text"><small class="text-muted">Watched on {{ review.watched_date }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div class="alert alert-secondary">No reviews yet. Go watch something!</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

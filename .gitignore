@@ -1,0 +1,16 @@
+# --- Flask/Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+
+*.db
+
+# --- Sessions/Storage ---
+flask_session/
+
+# --- Operating System ---
+.DS_Store
+Thumbs.db
