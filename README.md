@@ -31,7 +31,7 @@
 
 ```bash
 git clone https://github.com/Strangerfuture/personal.git
-cd personal
+cd cinetrack
 ```
 
 Replace the repository URL and directory with your actual GitHub repository if they differ.
@@ -57,18 +57,16 @@ On Windows:
 ### 3. Install Dependencies
 
 ```bash
-pip install flask flask-session requests
+pip install requirements.txt
 ```
-
-Install any additional dependencies required by your project.
 
 ### 4. Configure TMDB
 
-If your `helpers.py` uses the TMDB API, configure your API key as required by that file. Keep API keys and other secrets out of version control.
+Add TMDB API on `.env` file.
 
 ### 5. Initialize the Database
 
-The application uses SQLite and connects to `personal.db`. Ensure the database schema has been created before running the application. Check your database initialization script for the required tables:
+The application uses SQLite and connects to `cinetrack.db`. Ensure the database schema has been created before running the application. Check your database initialization script for the required tables:
 
 - `users`
 - `media`
@@ -95,19 +93,17 @@ Open `http://127.0.0.1:5000` in your browser.
 ## Project Structure
 
 ```text
-project/
+/CineTrack
 ├── app.py
 ├── helpers.py
-├── personal.db
+├── schema.sql
 ├── templates/
 │   ├── index.html
 │   ├── login.html
 │   ├── register.html
 │   └── search.html
-└── static/
 ```
 
-*The structure above is illustrative; adjust it to match your actual repository.*
 
 ## Security
 
@@ -115,7 +111,6 @@ project/
 - Parameterized SQL queries are used for database operations.
 - Login-required routes restrict access to authenticated users.
 
-For production use, configure a strong Flask secret key, protect state-changing routes against CSRF, and use secure session cookie settings over HTTPS.
 
 ## Future Improvements
 
